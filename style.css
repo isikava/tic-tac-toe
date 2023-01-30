@@ -1,0 +1,36 @@
+:root {
+  --c-light: #f6f4f1;
+  --c-dark: #12181b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--c-light);
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 150px);
+  grid-template-rows: repeat(3, 150px);
+  justify-content: center;
+  gap: 6px;
+  background-color: var(--c-dark);
+  font-size: 4rem;
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--c-light);
+  color: var(--c-dark);
+}

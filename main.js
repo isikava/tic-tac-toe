@@ -13,10 +13,17 @@ const player = (name, marker) => {
 };
 
 const gameBoard = (function () {
-  const board = [];
+  const board = ['X', 'O', '', 'X', 'O', 'X', '', '', 'X'];
 
   const init = () => {
     console.log('board init');
+  };
+
+  const render = () => {
+    const gameGrid = document.querySelector('.game-grid');
+    const html = board.map((cell) => `<div class="cell">${cell}</div>`).join(' ');
+
+    gameGrid.innerHTML = html;
   };
 
   const player1 = player('Boris', 'X');
@@ -26,7 +33,10 @@ const gameBoard = (function () {
 
   return {
     init,
+    render,
   };
 })();
 
+// game
 gameBoard.init();
+gameBoard.render();
