@@ -4,8 +4,6 @@ const player = (name, marker) => {
   const printInfo = () => console.log({ name, marker });
 
   return {
-    name,
-    marker,
     getName,
     getMarker,
     printInfo,
@@ -14,29 +12,29 @@ const player = (name, marker) => {
 
 const gameBoard = (function () {
   const board = ['X', 'O', '', 'X', 'O', 'X', '', '', 'X'];
+  const gameGrid = document.querySelector('#gameBoard');
 
-  const init = () => {
-    console.log('board init');
-  };
-
-  const render = () => {
-    const gameGrid = document.querySelector('.game-grid');
+  function render() {
     const html = board.map((cell) => `<div class="cell">${cell}</div>`).join(' ');
 
     gameGrid.innerHTML = html;
-  };
+  }
 
-  const player1 = player('Boris', 'X');
-  const player2 = player('Janna', 'O');
+  function changeBoard(index, player) {
+    board[index] = player.getMarker();
+    render();
+  }
 
-  player1.printInfo();
+  const player1 = player('Boris', 'X1');
+  const player2 = player('Janna', 'O2');
+
+  console.log('board init');
+  render();
+
+  changeBoard(2, player1);
+  changeBoard(3, player2);
 
   return {
-    init,
-    render,
+    changeBoard,
   };
 })();
-
-// game
-gameBoard.init();
-gameBoard.render();
