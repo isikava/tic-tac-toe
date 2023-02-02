@@ -1,40 +1,53 @@
-const player = (name, marker) => {
-  const getName = () => name;
-  const getMarker = () => marker;
-  const printInfo = () => console.log({ name, marker });
-
-  return {
-    getName,
-    getMarker,
-    printInfo,
-  };
-};
-
 const gameBoard = (function () {
-  const board = ['X', 'O', '', 'X', 'O', 'X', '', '', 'X'];
+  const board = ['X', 'O', '', '', '', '', '', '', ''];
   const gameGrid = document.querySelector('#gameBoard');
 
   function render() {
-    const html = board.map((cell) => `<div class="cell">${cell}</div>`).join(' ');
+    const html = board
+      .map((cell, index) => `<div class="cell" data-cell="${index}">${cell}</div>`)
+      .join(' ');
 
     gameGrid.innerHTML = html;
   }
 
-  function changeBoard(index, player) {
-    board[index] = player.getMarker();
+  function update(index, marker) {
+    if (board[index] !== '') return;
+
+    board[index] = marker;
     render();
   }
-
-  const player1 = player('Boris', 'X1');
-  const player2 = player('Janna', 'O2');
 
   console.log('board init');
   render();
 
-  changeBoard(2, player1);
-  changeBoard(3, player2);
-
   return {
-    changeBoard,
+    gameGrid,
+    update,
   };
+})();
+
+const player = (name, marker) => ({
+  name,
+  marker,
+});
+
+// Game
+(() => {
+  const { gameGrid, update } = gameBoard;
+  const player1 = player('Boris', 'X1');
+  const player2 = player('Janna', 'O2');
+
+  let currentPlayer = player1;
+  currentPlayer = player2;
+
+  const onClick = (e) => {
+    // Get index of clicked cell
+    const cellIndex = e.target.dataset.cell;
+    if (!cellIndex) return;
+
+    // emit turn
+    update(cellIndex, currentPlayer.marker);
+  };
+
+  gameGrid.addEventListener('click', onClick);
 })();
