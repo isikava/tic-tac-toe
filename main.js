@@ -1,5 +1,5 @@
 const gameBoard = (function () {
-  const board = ['X', 'X', '', '', '', '', '', '', ''];
+  let board;
   const winCons = [
     [0, 1, 2],
     [0, 3, 6],
@@ -11,6 +11,8 @@ const gameBoard = (function () {
     [6, 7, 8],
   ];
   const gameGrid = document.querySelector('#gameBoard');
+
+  const getBoard = () => board;
 
   function render() {
     const html = board
@@ -28,12 +30,12 @@ const gameBoard = (function () {
    * Find some array in which each element in the board
    * at an index equal to the array element
    * is equal to the marker
-   * and return true or false
+   * and return boolean
    */
   function isWinningTurn(index, marker) {
     return winCons
-      .filter((cons) => cons.includes(index))
-      .some((con) => con.every((conEl) => board[conEl] === marker));
+      .filter((con) => con.includes(index))
+      .some((arr) => arr.every((el) => board[el] === marker));
   }
 
   function makeTurn(index, marker) {
@@ -45,11 +47,18 @@ const gameBoard = (function () {
     return isWinningTurn(index, marker);
   }
 
-  render();
+  function reset() {
+    board = Array(9).fill('');
+    render();
+  }
+
+  reset();
 
   return {
     gameGrid,
+    getBoard,
     makeTurn,
+    reset,
   };
 })();
 
@@ -60,21 +69,44 @@ const player = (name, marker) => ({
 
 // Game
 (() => {
-  const { gameGrid, makeTurn } = gameBoard;
-  const player1 = player('Boris', 'X');
-  const player2 = player('Janna', 'O');
-  const currentPlayer = player2;
+  const { gameGrid, getBoard, makeTurn, reset } = gameBoard;
+  const winnerEl = document.querySelector('#winner');
+  const playerX = player('Boris', 'X');
+  const playerO = player('Janna', 'O');
+  let currentPlayer = playerX;
+  let winner = null;
+
+  const switchPlayer = () => {
+    currentPlayer = currentPlayer === playerX ? playerO : playerX;
+  };
 
   const onClick = (e) => {
     // Get index of clicked cell
     const cellIndex = e.target.dataset.cell;
-    if (!cellIndex) return;
+    if (!cellIndex || winner) return;
 
     const isPlayerWon = makeTurn(+cellIndex, currentPlayer.marker);
     if (isPlayerWon) {
-      console.log(`The winner is ${currentPlayer.name}`);
+      winner = currentPlayer.marker;
+      winnerEl.textContent = `The winner is ${winner}`;
+    } else {
+      const board = getBoard();
+      // If board is full
+      if (!board.includes('')) {
+        winnerEl.textContent = `It's a DRAW`;
+      }
     }
+    switchPlayer();
   };
 
+  const onReset = () => {
+    currentPlayer = playerX;
+    winner = null;
+    winnerEl.textContent = '';
+    reset();
+  };
+
+  const resetBtn = document.querySelector('#reset');
+  resetBtn.addEventListener('click', onReset);
   gameGrid.addEventListener('click', onClick);
 })();
