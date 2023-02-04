@@ -112,10 +112,28 @@ button {
   user-select: none;
 }
 
+.cell-O {
+  color: var(--c-dark);
+}
+
+.cell span {
+  animation-name: size;
+  animation-duration: 0.5s;
+}
+
 .game-controls {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+@keyframes size {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 @media (width >= 48em) {

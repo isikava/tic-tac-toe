@@ -16,7 +16,7 @@ const gameBoard = (function () {
 
   function render() {
     const html = board
-      .map((cell, index) => `<div class="cell" data-cell="${index}">${cell}</div>`)
+      .map((cell, index) => `<div class="cell" data-cell="${index}"></div>`)
       .join(' ');
 
     gameGrid.innerHTML = html;
@@ -42,7 +42,11 @@ const gameBoard = (function () {
     if (board[index] !== '') return false;
 
     board[index] = marker;
-    render();
+    const cell = gameGrid.querySelector(`[data-cell="${index}"]`);
+    const span = document.createElement('span');
+    span.textContent = marker;
+    cell.append(span);
+    cell.className += marker === 'O' ? ' cell-O' : '';
 
     return isWinningTurn(index, marker);
   }
