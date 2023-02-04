@@ -70,7 +70,7 @@ const player = (name, marker) => ({
 // Game
 (() => {
   const { gameGrid, getBoard, makeTurn, reset } = gameBoard;
-  const winnerEl = document.querySelector('#winner');
+  const messageEl = document.querySelector('#message');
   const playerX = player('Boris', 'X');
   const playerO = player('Janna', 'O');
   let currentPlayer = playerX;
@@ -88,12 +88,12 @@ const player = (name, marker) => ({
     const isPlayerWon = makeTurn(+cellIndex, currentPlayer.marker);
     if (isPlayerWon) {
       winner = currentPlayer.marker;
-      winnerEl.textContent = `The winner is ${winner}`;
+      messageEl.textContent = `The winner is ${winner}`;
     } else {
       const board = getBoard();
       // If board is full
       if (!board.includes('')) {
-        winnerEl.textContent = `It's a DRAW`;
+        messageEl.textContent = `It's a DRAW`;
       }
     }
     switchPlayer();
@@ -102,7 +102,7 @@ const player = (name, marker) => ({
   const onReset = () => {
     currentPlayer = playerX;
     winner = null;
-    winnerEl.textContent = '';
+    messageEl.textContent = '';
     reset();
   };
 

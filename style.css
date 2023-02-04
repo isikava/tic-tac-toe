@@ -1,37 +1,150 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:500,600&display=swap');
+
 :root {
-  --c-light: #f6f4f1;
-  --c-dark: #12181b;
+  /* Colors */
+  --c-light: #f8f6f5;
+  --c-light-accent: #aa91a6;
+  --c-primary: #ca8f89;
+  --c-dark-accent: #945d73;
+  --c-dark: #284049;
+  --c-body: var(--c-dark-accent);
+  --c-text: var(--c-light);
+  --c-button: var(--c-dark);
+  /* Sizes */
+  --w-board: 300px;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
 }
 
 body {
-  background-color: var(--c-light);
+  text-align: center;
+  background-color: var(--c-body);
+  color: var(--c-text);
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1 {
+  font-size: 2.5rem;
+  line-height: 1;
+  border-bottom: 3px dotted var(--c-primary);
+}
+
+header {
+  padding: 1rem;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  min-width: 200px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  background-color: var(--c-button);
+  color: var(--c-text);
 }
 
 .container {
+  width: var(--w-board);
+  margin: 0 auto;
+}
+
+#message {
+  min-height: 30px;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.game-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  gap: 40px;
 }
 
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(3, 150px);
-  grid-template-rows: repeat(3, 150px);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   justify-content: center;
-  gap: 6px;
-  background-color: var(--c-dark);
-  font-size: 4rem;
+  gap: 4px;
+  width: var(--w-board);
+  height: var(--w-board);
+  background-color: var(--c-primary);
 }
 
 .cell {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--c-light);
-  color: var(--c-dark);
+  background-color: var(--c-body);
+  color: var(--c-text);
+  font-size: 90px;
+  line-height: 1;
+  user-select: none;
+}
+
+.game-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (width >= 48em) {
+  :root {
+    --w-board: 450px;
+  }
+
+  button {
+    font-size: 1.5rem;
+    background-color: transparent;
+  }
+
+  button:hover {
+    background-color: var(--c-button);
+  }
+
+  #message {
+    min-height: 50px;
+    font-size: 50px;
+  }
+
+  .cell {
+    font-size: 120px;
+  }
+
+  .game-controls {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
 }

@@ -9,13 +9,17 @@
     <script src="main.js" defer></script>
   </head>
   <body>
-    <h1>Tic Tac Toe</h1>
-    <div class="container">
-      <main id="gameBoard" class="game-grid"></main>
-      <div>
-        <h2 id="winner"></h2>
+    <header>
+      <div class="container">
+        <h1>Tic Tac Toe</h1>
+      </div>
+    </header>
+    <main class="container game-container">
+      <h2 id="message"></h2>
+      <div id="gameBoard" class="game-grid"></div>
+      <div class="game-controls">
         <button id="reset">Restart</button>
       </div>
-    </div>
+    </main>
   </body>
 </html>
