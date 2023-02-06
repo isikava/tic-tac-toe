@@ -3,13 +3,14 @@
 :root {
   /* Colors */
   --c-light: #f8f6f5;
-  --c-light-accent: #aa91a6;
-  --c-primary: #ca8f89;
-  --c-dark-accent: #945d73;
-  --c-dark: #284049;
-  --c-body: var(--c-dark-accent);
+  --c-accent-light: #86a4ce;
+  --c-primary: #2563eb;
+  --c-accent-dark: #8275a2;
+  --c-dark: #1f2937;
+  --c-body: var(--c-dark);
   --c-text: var(--c-light);
-  --c-button: var(--c-dark);
+  --c-button: var(--c-primary);
+  --c-border: var(--c-accent-dark);
   /* Sizes */
   --w-board: 300px;
 }
@@ -55,7 +56,7 @@ body {
 h1 {
   font-size: 2.5rem;
   line-height: 1;
-  border-bottom: 3px dotted var(--c-primary);
+  border-bottom: 3px dotted var(--c-border);
 }
 
 header {
@@ -79,8 +80,8 @@ button {
 }
 
 #message {
-  min-height: 30px;
-  font-size: 30px;
+  min-height: 1.8rem;
+  font-size: 1.8rem;
   line-height: 1;
 }
 
@@ -98,7 +99,7 @@ button {
   gap: 4px;
   width: var(--w-board);
   height: var(--w-board);
-  background-color: var(--c-primary);
+  background-color: var(--c-border);
 }
 
 .cell {
@@ -113,7 +114,7 @@ button {
 }
 
 .cell-O {
-  color: var(--c-dark);
+  color: var(--c-primary);
 }
 
 .cell span {
@@ -129,7 +130,7 @@ button {
 
 @keyframes size {
   from {
-    transform: scale(0);
+    transform: scale(1.2);
   }
   to {
     transform: scale(1);
@@ -151,8 +152,8 @@ button {
   }
 
   #message {
-    min-height: 50px;
-    font-size: 50px;
+    min-height: 3rem;
+    font-size: 3rem;
   }
 
   .cell {

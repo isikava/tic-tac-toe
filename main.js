@@ -1,4 +1,7 @@
-const gameBoard = (function () {
+/* eslint no-undef: "error" */
+/* eslint-env browser */
+
+const gameBoard = (() => {
   let board;
   const winCons = [
     [0, 1, 2],
@@ -23,14 +26,14 @@ const gameBoard = (function () {
   }
 
   /**
-   * @param {*} index
-   * @param {*} marker
    * After click on the cell, getting cellIndex // 2
    * Find all possible win conditions with that index // [0, 1, 2], [2, 5 ,6]
    * Find some array in which each element in the board
    * at an index equal to the array element
    * is equal to the marker
-   * and return boolean
+   * @param { Number } index
+   * @param { String } marker
+   * @return { Boolean }
    */
   function isWinningTurn(index, marker) {
     return winCons
