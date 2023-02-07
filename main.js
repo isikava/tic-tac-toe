@@ -25,16 +25,6 @@ const gameBoard = (() => {
     gameGrid.innerHTML = html;
   }
 
-  /**
-   * After click on the cell, getting cellIndex // 2
-   * Find all possible win conditions with that index // [0, 1, 2], [2, 5 ,6]
-   * Find some array in which each element in the board
-   * at an index equal to the array element
-   * is equal to the marker
-   * @param { Number } index
-   * @param { String } marker
-   * @return { Boolean }
-   */
   function isWinningTurn(index, marker) {
     return winCons
       .filter((con) => con.includes(index))
@@ -43,13 +33,7 @@ const gameBoard = (() => {
 
   function makeTurn(index, marker) {
     if (board[index] !== '') return false;
-
     board[index] = marker;
-    const cell = gameGrid.querySelector(`[data-cell="${index}"]`);
-    const span = document.createElement('span');
-    span.textContent = marker;
-    cell.append(span);
-    cell.className += marker === 'O' ? ' cell-O' : '';
 
     return isWinningTurn(index, marker);
   }
@@ -92,7 +76,16 @@ const player = (name, marker) => ({
     const cellIndex = e.target.dataset.cell;
     if (!cellIndex || winner) return;
 
+    // Add marker to clicked cell
+    const cell = e.target;
+    cell.className += currentPlayer.marker === 'O' ? ' cell-O' : '';
+    const span = document.createElement('span');
+    span.textContent = currentPlayer.marker;
+    cell.append(span);
+
+    // Make turn
     const isPlayerWon = makeTurn(+cellIndex, currentPlayer.marker);
+    // Check if it's a winning turn
     if (isPlayerWon) {
       winner = currentPlayer.marker;
       messageEl.textContent = `The winner is ${winner}`;
