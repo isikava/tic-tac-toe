@@ -74,15 +74,15 @@ button {
   color: var(--c-text);
 }
 
-.container {
-  width: var(--w-board);
-  margin: 0 auto;
-}
-
-#message {
+.message {
   min-height: 1.8rem;
   font-size: 1.8rem;
   line-height: 1;
+}
+
+.container {
+  width: var(--w-board);
+  margin: 0 auto;
 }
 
 .game-container {
