@@ -2,35 +2,40 @@
 /* eslint-env browser */
 
 const UI = (() => {
-  console.log('ui init');
-
   const boardGrid = document.querySelector('#board');
+  const messageEl = document.querySelector('#message');
+  const resetBtn = document.querySelector('#reset');
 
-  function renderBoard(board) {
-    console.log(board);
-    //   const html = board
-    //     .map((cell, index) => `<div class="cell" data-cell="${index}"></div>`)
-    //     .join(' ');
+  const getGrid = () => boardGrid;
 
-    //   boardGrid.innerHTML = html;
-  }
+  const getResetBtn = () => resetBtn;
 
-  const printNewRound = (currentPlayer) => {
-    console.log(`${currentPlayer.marker}'s turn`);
-    // messageEl.textContent = `${currentPlayer.marker}'s turn`;
+  const renderBoard = (board = []) => {
+    const html = board
+      .map((cell, index) => `<div class="cell" data-cell="${index}"></div>`)
+      .join(' ');
+
+    boardGrid.innerHTML = html;
   };
 
   const updateMessage = (message) => {
-    console.log(message);
+    // console.log(message);
+    messageEl.textContent = message;
+  };
+
+  const printNewRound = (currentPlayer) => {
+    // console.log(`${currentPlayer.marker}'s turn`);
+    messageEl.textContent = `${currentPlayer.marker}'s turn`;
   };
 
   const placeMark = (index, marker) => {
-    console.log(`Dropping ${marker}'s marker into ${index}...`);
-    // const currentClass = marker === 'O' ? ' cell-O' : '';
-    // cell.className += currentClass;
-    // const span = document.createElement('span');
-    // span.textContent = marker;
-    // cell.append(span);
+    // console.log(`Dropping ${marker}'s marker into ${index}...`);
+    const cell = boardGrid.querySelector(`[data-cell="${index}"]`);
+    const currentClass = marker === 'O' ? ' cell-O' : '';
+    cell.className += currentClass;
+    const span = document.createElement('span');
+    span.textContent = marker;
+    cell.append(span);
   };
 
   return {
@@ -38,9 +43,12 @@ const UI = (() => {
     printNewRound,
     updateMessage,
     placeMark,
+    getGrid,
+    getResetBtn,
   };
 })();
 
+// Game board state
 const gameBoard = () => {
   let board;
   const WIN_CONS = [
@@ -84,37 +92,35 @@ const gameBoard = () => {
   };
 };
 
+// Players factory
 const player = (name, marker) => ({
   name,
   marker,
 });
 
-const gameController = (playerX = player('Player1', 'X'), playerO = player('Player2', 'O')) => {
-  // const boardGrid = document.querySelector('#board');
-  // const messageEl = document.querySelector('#message');
+// Game
+const gameController = (
+  playerX = player('Player1', 'X'),
+  playerO = player('Player2', 'O')
+) => {
   const { getBoard, makeTurn, isDraw, reset } = gameBoard();
 
   let currentPlayer = playerX;
   let winner = null;
+  let board = getBoard();
 
-  const board = getBoard();
   UI.renderBoard(board);
   UI.printNewRound(currentPlayer);
 
   const switchPlayer = () => {
     currentPlayer = currentPlayer === playerX ? playerO : playerX;
-
     UI.printNewRound(currentPlayer);
   };
 
   const playRound = (index) => {
-    // // Get index of clicked cell
-    // const cellIndex = e.target.dataset.cell;
-    // // const board = getBoard();
     if (board[index] !== '' || winner) return;
 
     // Add marker to clicked cell
-    // const cell = e.target;
     UI.placeMark(index, currentPlayer.marker);
 
     // Make turn
@@ -129,28 +135,35 @@ const gameController = (playerX = player('Player1', 'X'), playerO = player('Play
     } else {
       switchPlayer();
     }
-    UI.renderBoard(board);
   };
 
-  const onReset = () => {
+  const onClick = (e) => {
+    const index = e.target.dataset.cell;
+    if (!index) return;
+
+    playRound(+index);
+  };
+
+  const resetGame = () => {
     currentPlayer = playerX;
     winner = null;
     reset();
 
+    board = getBoard();
     UI.renderBoard(board);
     UI.printNewRound(currentPlayer);
   };
 
-  // const resetBtn = document.querySelector('#reset');
-  // resetBtn.addEventListener('click', onReset);
-  // boardGrid.addEventListener('click', onClick);
+  const boardGrid = UI.getGrid();
+  const resetBtn = UI.getResetBtn();
+
+  boardGrid.addEventListener('click', onClick);
+  resetBtn.addEventListener('click', resetGame);
 
   return {
     playRound,
-    onReset,
-    board,
+    resetGame,
   };
 };
 
-// Game
 const game = gameController();
