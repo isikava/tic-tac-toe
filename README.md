@@ -2,7 +2,7 @@
 
 ## Project: Tic Tac Toe
 
-## [Live](https://alexign473.github.io/tic-tac-toe/)
+## [Live](https://isikava.github.io/tic-tac-toe/)
 
 ![](Screenshot.jpg)
 
